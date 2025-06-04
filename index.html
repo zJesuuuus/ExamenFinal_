@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pag Parcial II</title>
+    <!-- ESTILOS IMPORTADOS DESDE BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+</head>
+
+<body class="bg-white">
+    <div class="container">
+
+        <!-- BARRA DE NAVEGACION IMPORTADA DE BOOTSTRAP -->
+
+        <div class="row">
+            <div class="col">
+                <nav class="navbar bg-danger">
+                    <div class="container-fluid">
+                      <a class="navbar-brand" href="#">
+                        <img src="./img/logoVertical-UFPSO.png" alt="Logo" width="40" height="48" class="text-light fst-italic navbar-brand mb-0 h1">
+                        PARCIAL II
+                      </a>
+                    </div>
+                  </nav>
+            </div>
+        </div>
+
+        <!-- TABLA DE INICIO DE SESIÓN -->
+
+        <div class="row justify-content-center mt-3">
+            <div class="col-6">
+                <div class="card border border-success-subtle fst-italic">
+                    <div class="card-header text-center bg-danger text-light">
+                      <h4>Inicio de Sesión:</h4>
+                    </div>
+                    <div class="card-body bg-danger-subtle">
+                        <form id="formLogin">
+                            <div class="mb-3">
+                              <label for="username" class="form-label">Nombre de Usuario:</label>
+                              <input type="text" class="form-control bg-danger-subtle" id="username" aria-describedby="usernameHelp" required>
+                            </div>
+                            <div class="mb-3">
+                              <label for="password" class="form-label">Contraseña:</label>
+                              <input type="password" class="form-control bg-danger-subtle" id="password" required>
+                            </div>
+                            <div id="alert">
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    <strong>Bienvenido!</strong> Para continuar completa los campos anteriores.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-danger d-block mx-auto">Ingresar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+        crossorigin="anonymous"></script>
+    
+    <script src="JavaScript/loginService.js"></script>
+
+</body>
+</html>
