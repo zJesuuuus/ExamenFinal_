@@ -20,7 +20,7 @@ function login(username, password){
 
     const credentials = { username, password};
     fetch('https://fakestoreapi.com/auth/login', {
-    method: 'GET',
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials)
     })
