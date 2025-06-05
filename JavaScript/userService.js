@@ -6,7 +6,8 @@ function getUsers() {
       .then(r => r.json())
       .then(users => {
         let table = `
-          <table class="table table-hover fst-italic">
+        <button type="button" class="btn btn-outline-danger" onclick="addUser()"><i class="fa-solid fa-user-plus"></i></button>
+          <table class="table table-hover fst-italic bg-danger-subtle">
             <thead>
               <tr>
                 <th>ID</th>
@@ -39,8 +40,7 @@ function getUsers() {
           '<p>Error al cargar la lista de usuarios.</p>')
       );
   }
-  
-  /*  GET /users/:id  ───────────────────────────────────────────── */
+
   function viewUserDetail(userId) {
     fetch(`https://fakestoreapi.com/users/${userId}`)
       .then(r => r.json())
@@ -68,4 +68,127 @@ function getUsers() {
       })
       .catch(() => alert('No se pudo obtener el detalle del usuario.'));
   }
-  
+  function showModalUser(user){
+    console.log ('UserModal', user)
+    const modalUser = `
+        <div class="modal fade fst-italic" id="modalUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-user"></i> Show User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <img src="${user.avatar}" class="card-img-top" alt="User Avatar">
+                    <div class="card-body">
+                        <h5 class="card-title">Info User</h5>
+                        <p class="card-text">First Name : ${user.first_name}</p>
+                        <p class="card-text">Last Name : ${user.last_name}</p>
+                        <p class="card-text">Email : ${user.email}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+            </div>
+        </div>
+    `
+    document.getElementById('showModal').innerHTML = modalUser
+    const modal = new bootstrap.Modal(document.getElementById('modalUser'))
+    modal.show()
+}
+function addUser(){
+    const modalUser = `
+        <div class="modal fade fst-italic" id="modalUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel"><i class="fa-solid fa-user-plus"></i> Add User</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="formAddUser">
+                        <div class="mb-3">
+                                <label for="idUSer" class="form-label">ID: </label>
+                                <input type="number" class="form-control" id="idUser" placeholder="Id input " required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email: </label>
+                                <input type="email" class="form-control" id="email" placeholder="Email input " required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username: </label>
+                                <input type="text" class="form-control" id="username" placeholder="Username input" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password: </label>
+                                <input type="password" class="form-control" id="password" placeholder="Password input" required>
+                            </div>
+                            <div class="mb-3 text-center">
+                                <button class="btn btn-success" type="submit" onclick="saveUser()"><i class="fa-solid fa-floppy-disk"></i> Save </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+            </div>
+        </div>
+    `
+    document.getElementById('showModal').innerHTML = modalUser
+    const modal = new bootstrap.Modal(document.getElementById('modalUser'))
+    modal.show()
+}
+
+function saveUser(){
+    const form = document.getElementById('formAddUser')
+    if(form.checkValidity()){
+        const first_name = document.getElementById('first_name').value
+        const last_name = document.getElementById('last_name').value
+        const email = document.getElementById('email').value
+        const avatar = document.getElementById('avatar').value
+        const userData = {first_name, last_name, email, avatar}
+
+        fetch("https://reqres.in/api/users", {
+        method: "POST", 
+        headers: {
+            "Content-type" : "application/json",
+            'x-api-key': 'reqres-free-v1'
+        },
+        body: JSON.stringify(userData)
+    })
+
+    .then((result) =>{
+        return result.json().then(
+            data => {
+                return {
+                    status: result.status,
+                    body: data
+                }
+            }
+        )
+    })
+        .then((response)=>{
+            if(response.status === 201){
+                document.getElementById('info').innerHTML = '<h3>The user was register success!</h3>'
+            }
+            else{
+                document.getElementById('info').innerHTML = '<h3>The user was register error!</h3>'
+            }
+            const modalId = document.getElementById('modalUser')
+            const modal = bootstrap.Modal.getInstance(modalId)
+            modal.hide()
+        })
+    }
+    else{
+        form.reportValidity()
+    }
+}

@@ -9,7 +9,7 @@ function getProducts() {
         const grid = products
           .map(
             p => `
-            <button type="button" class="btn btn-outline-danger" onclick="addProduct()"><i class="fa-solid fa-user-plus"></i></button>
+            <button type="button" class="btn btn-outline-danger" onclick="addProduct()">Agregar Producto</button>
           <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
             <div class="card h-100 shadow-sm bg-danger-subtle">
               <img src="${p.image}" class="card-img-top" style="object-fit:contain;height:180px" />
