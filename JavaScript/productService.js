@@ -1,5 +1,5 @@
 function getProducts() {
-    document.getElementById('cardHeader').innerHTML = '<h4>Lista de productos</h4>';
+    document.getElementById('cardHeader').innerHTML = '<h4>Lista de productos</h4> <button type="button" class="btn btn-outline-danger-subtle " onclick="addProduct()">AGREGAR PRODUCTO</button>';
     document.getElementById('info').innerHTML = '<p>Cargando...</p>';
   
     fetch('https://fakestoreapi.com/products')
@@ -9,7 +9,6 @@ function getProducts() {
         const grid = products
           .map(
             p => `
-            <button type="button" class="btn btn-outline-danger" onclick="addProduct()">Agregar Producto</button>
           <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3">
             <div class="card h-100 shadow-sm bg-danger-subtle">
               <img src="${p.image}" class="card-img-top" style="object-fit:contain;height:180px" />
@@ -127,17 +126,18 @@ function getProducts() {
 function saveProduct(){
     const form = document.getElementById('formAddProduct')
     if(form.checkValidity()){
-        const first_name = document.getElementById('first_name').value
-        const last_name = document.getElementById('last_name').value
-        const email = document.getElementById('email').value
-        const avatar = document.getElementById('avatar').value
-        const userData = {first_name, last_name, email, avatar}
+        const idProduct = document.getElementById('idProduct').value
+        const titleProduct = document.getElementById('titleProduct').value
+        const priceProduct = document.getElementById('proceProduct').value
+        const descProduct = document.getElementById('descProduct').value
+        const categoryProduct = document.getElementById('categoryProduct').value
+        const imagenProduct = document.getElementById('imagenProduct').value
+        const userData = {idProduct, titleProduct, priceProduct, descProduct, categoryProduct, imagenProduct}
 
-        fetch("https://reqres.in/api/users", {
+        fetch("https://fakestoreapi.com/products", {
         method: "POST", 
         headers: {
-            "Content-type" : "application/json",
-            'x-api-key': 'reqres-free-v1'
+            "Content-type" : "application/json"
         },
         body: JSON.stringify(userData)
     })
@@ -154,12 +154,12 @@ function saveProduct(){
     })
         .then((response)=>{
             if(response.status === 201){
-                document.getElementById('info').innerHTML = '<h3>The user was register success!</h3>'
+                document.getElementById('info').innerHTML = '<h3>The product was register success!</h3>'
             }
             else{
-                document.getElementById('info').innerHTML = '<h3>The user was register error!</h3>'
+                document.getElementById('info').innerHTML = '<h3>The product was register error!</h3>'
             }
-            const modalId = document.getElementById('modalUser')
+            const modalId = document.getElementById('modalProduct')
             const modal = bootstrap.Modal.getInstance(modalId)
             modal.hide()
         })

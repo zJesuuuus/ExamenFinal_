@@ -6,7 +6,7 @@ function getUsers() {
       .then(r => r.json())
       .then(users => {
         let table = `
-        <button type="button" class="btn btn-outline-danger" onclick="addUser()"><i class="fa-solid fa-user-plus"></i></button>
+        <button type="button" class="btn btn-outline bg-danger-subtle" onclick="addUser()"><i class="fa-solid fa-user-plus"></i></button>
           <table class="table table-hover fst-italic bg-danger-subtle">
             <thead>
               <tr>
@@ -25,7 +25,7 @@ function getUsers() {
               <td>${u.name.firstname} ${u.name.lastname}</td>
               <td>${u.username}</td>
               <td>
-                <button class="btn btn-outline-info btn-sm" onclick="viewUserDetail(${u.id})">
+                <button class="btn btn-outline-danger btn-sm" onclick="viewUserDetail(${u.id})">
                   Ver
                 </button>
               </td>
@@ -56,9 +56,9 @@ function getUsers() {
                 <div class="modal-body">
                   <p><strong>Nombre:</strong> ${u.name.firstname} ${u.name.lastname}</p>
                   <p><strong>Usuario:</strong> ${u.username}</p>
-                  <p><strong>username:</strong> ${u.username}</p>
-                  <p><strong>Teléfono:</strong> ${u.phone}</p>
-                  <p><strong>Dirección:</strong> ${u.address.city}, ${u.address.street} #${u.address.number}</p>
+                  <p><strong>Username:</strong> ${u.username}</p>
+                  <p><strong>Telefono:</strong> ${u.phone}</p>
+                  <p><strong>Direccion:</strong> ${u.address.city}, ${u.address.street} #${u.address.number}</p>
                 </div>
               </div>
             </div>
@@ -100,6 +100,7 @@ function getUsers() {
     const modal = new bootstrap.Modal(document.getElementById('modalUser'))
     modal.show()
 }
+
 function addUser(){
     const modalUser = `
         <div class="modal fade fst-italic" id="modalUser" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -114,7 +115,7 @@ function addUser(){
                     <div class="card-body">
                         <form id="formAddUser">
                         <div class="mb-3">
-                                <label for="idUSer" class="form-label">ID: </label>
+                                <label for="idUser" class="form-label">ID: </label>
                                 <input type="number" class="form-control" id="idUser" placeholder="Id input " required>
                             </div>
                             <div class="mb-3">
@@ -151,13 +152,13 @@ function addUser(){
 function saveUser(){
     const form = document.getElementById('formAddUser')
     if(form.checkValidity()){
-        const first_name = document.getElementById('first_name').value
-        const last_name = document.getElementById('last_name').value
+        const idUser = document.getElementById('idUser').value
         const email = document.getElementById('email').value
-        const avatar = document.getElementById('avatar').value
-        const userData = {first_name, last_name, email, avatar}
+        const username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+        const userData = {idUser, email, username, password}
 
-        fetch("https://reqres.in/api/users", {
+        fetch("https://fakestoreapi.com/users", {
         method: "POST", 
         headers: {
             "Content-type" : "application/json",

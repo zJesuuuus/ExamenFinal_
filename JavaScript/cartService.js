@@ -1,8 +1,6 @@
 function getCarts() {
     document.getElementById('cardHeader').innerHTML = '<h4>Lista de carritos de compras</h4>';
     document.getElementById('info').innerHTML = '<p>Cargando...</p>';
-
-    // Usar la Fake Store API correcta
     fetch("https://fakestoreapi.com/carts", {
         method: "GET",
         headers: {
@@ -13,15 +11,15 @@ function getCarts() {
     .then(carts => {
         if (carts.length > 0) {
             let cartList = `
-            <button type="button" class="btn btn-outline-danger" onclick="addUser()"><i class="fa-solid fa-user-plus"></i></button>
-                <table class="table table-hover">
+            <button type="button" class="btn btn-outline-danger" onclick="addCarts()"><i class="fa-solid fa-cart-plus"></i></button>
+                <table class="table table-hover bg-danger-subtle">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Usuario ID</th>
+                            <th>User ID</th>
                             <th>Fecha</th>
-                            <th>Productos</th>
-                            <th>Detalle</th>
+                            <th>Products</th>
+                            <th>Details</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,7 +36,7 @@ function getCarts() {
                         <td>${date}</td>
                         <td>${productCount} producto${productCount !== 1 ? 's' : ''}</td>
                         <td>
-                            <button type="button" class="btn btn-outline-info btn-sm" 
+                            <button type="button" class="btn btn-outline-danger btn-sm" 
                                     onclick="viewCartDetail(${cart.id})">
                                 Ver
                             </button>
@@ -156,4 +154,90 @@ function viewCartDetail(cartId) {
         console.error('Error:', error);
         alert('No se pudo obtener detalle del carrito.');
     });
+}
+function addCarts(){
+    const modalCart = `
+        <div class="modal fade fst-italic" id="modalCart" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Add Cart</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="formAddCart">
+                        <div class="mb-3">
+                                <label for="idCart" class="form-label">ID: </label>
+                                <input type="number" class="form-control" id="idCart" placeholder="Id input " required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userId" class="form-label">User ID: </label>
+                                <input type="number" class="form-control" id="userId" placeholder="User Id input " required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="products" class="form-label">Products: </label>
+                                <input type="text" class="form-control" id="products" placeholder="Products input" required>
+                            </div>
+                            <div class="mb-3 text-center">
+                                <button class="btn btn-success" type="submit" onclick="saveCart()"><i class="fa-solid fa-floppy-disk"></i> Save </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+            </div>
+        </div>
+    `
+    document.getElementById('showModal').innerHTML = modalCart
+    const modal = new bootstrap.Modal(document.getElementById('modalCart'))
+    modal.show()
+}
+
+function saveCart(){
+    const form = document.getElementById('formAddCart')
+    if(form.checkValidity()){
+        const idCart = document.getElementById('idCart').value
+        const userId = document.getElementById('userId').value
+        const products = document.getElementById('producst').value
+        const userData = {idCart, userId, products}
+
+        fetch("https://fakestoreapi.com/carts", {
+        method: "POST", 
+        headers: {
+            "Content-type" : "application/json"
+        },
+        body: JSON.stringify(userData)
+    })
+
+    .then((result) =>{
+        return result.json().then(
+            data => {
+                return {
+                    status: result.status,
+                    body: data
+                }
+            }
+        )
+    })
+        .then((response)=>{
+            if(response.status === 201){
+                document.getElementById('info').innerHTML = '<h3>The cart was register success!</h3>'
+            }
+            else{
+                document.getElementById('info').innerHTML = '<h3>The cart was register error!</h3>'
+            }
+            const modalId = document.getElementById('modalCart')
+            const modal = bootstrap.Modal.getInstance(modalId)
+            modal.hide()
+        })
+    }
+    else{
+        form.reportValidity()
+    }
 }
