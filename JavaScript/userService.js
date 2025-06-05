@@ -6,13 +6,13 @@ function getUsers() {
       .then(r => r.json())
       .then(users => {
         let table = `
-          <table class="table table-hover">
+          <table class="table table-hover fst-italic">
             <thead>
               <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>username</th>
-                <th>Detalle</th>
+                <th>Nombre de Usuario</th>
+                <th>Detalles</th>
               </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@ function getUsers() {
       .then(r => r.json())
       .then(u => {
         const modalHTML = `
-          <div class="modal fade" id="modalUser" tabindex="-1" aria-hidden="true">
+          <div class="modal fade fst-italic" id="modalUser" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">

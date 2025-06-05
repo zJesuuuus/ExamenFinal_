@@ -13,6 +13,7 @@ function getCarts() {
     .then(carts => {
         if (carts.length > 0) {
             let cartList = `
+            <button type="button" class="btn btn-outline-danger" onclick="addUser()"><i class="fa-solid fa-user-plus"></i></button>
                 <table class="table table-hover">
                     <thead>
                         <tr>
